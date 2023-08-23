@@ -19,7 +19,7 @@ $ pip install -r ./setup/requirements.txt
 That's it! You should have everything you need to import tools into your python scripts
 
 ## Importing modules
-Use this boiler plate at the start of your scripts.
+If using IDEs (like vscode), use this boiler plate at the start of your scripts.
 
 ```
 #Boiler plate
