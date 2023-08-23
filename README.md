@@ -18,13 +18,14 @@ $ pip install -r ./setup/requirements.txt
 ```
 That's it! You should have everything you need to import tools into your python scripts
 
-## Importing tools
+## Importing modules
 Use this boiler plate at the start of your scripts.
 
 ```
 #Boiler plate
 import sys
-sys.path.insert(0, "/path/to/mutwillab/src")
+sys.path.insert(0, "/path/to/mutwillab/src/")
+sys.path.insert(0, "/path/to/mutwillab/.venv/lib/python3.11/site-packages/")
 
 #Import modules from mutwillab
 from coexpression import pearson
@@ -33,14 +34,16 @@ from coexpression import pearson
 ```
 **For Mutwil Lab members:** If writing executable script for your pipline in `main/` folder, your can use this boiler plate.
 ```
-#!/usr/bin/env python
 #Boiler plate
 import sys
 if __name__ == "__main__":
          abspath= __file__
          parent_module= "/".join(abspath.split("/")[:-2])
          sys.path.insert(0, parent_module)
+#Import modules from mutwillab
+from coexpression import pearson
 ```
+
 Happy coding!
 
 # ATTENTION
