@@ -43,7 +43,11 @@ if __name__ == "__main__":
 #Import modules from mutwillab
 from coexpression import pearson
 ```
-
+Activate virtual enviroment and run the script from CLI.
+```
+$ source ./venv/bin/activate
+$ python ./src/main/yourscript.py
+```
 Happy coding!
 
 # ATTENTION
