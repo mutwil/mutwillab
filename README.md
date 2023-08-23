@@ -5,7 +5,7 @@ Please visit our [website](https://www.plant.tools/) for more details
 ## Setup
 ### Clone repository into local machine
 ```
-$ git clone <placeholder>
+$ git clone https://github.com/mutwil/mutwillab.git
 ```
 ### Create environment, install required packages
 
