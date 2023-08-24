@@ -31,17 +31,25 @@ def add_HRR_MR(network, cutoff= 1000):
             if len(T_S_vals)==2: # not calculated. both source and target perspective present.
                 HRR , MR =  np.nanmax([T_S_vals[1], network[source][target][1]]) , scipy.stats.gmean([T_S_vals[1], network[source][target][1]])
                 network[source][target].extend([HRR, MR])
-                network[target][source].expend([HRR, MR])
+                network[target][source].extend([HRR, MR])
             elif len(T_S_vals) >2: # already calulated. skip
                 pass
             elif len(T_S_vals) <2: # not present from target's perspective. That is okay
                 HRR , MR =  np.nanmax([cutoff, network[source][target][1]]) , scipy.stats.gmean([cutoff, network[source][target][1]])
                 network[source][target].extend([HRR, MR])
-                network[target][source] = [ math.nan,math.nan,HRR, MR]
+                network[target][source] = [ network[source][target][0],math.nan,HRR, MR]
     return network
 
             
-network ={"A":{"B":[0.7,1], "C":[0.6,2]},
+if __name__ == "__main__":
+    #I use this to test out my functions.
+    network ={"A":{"B":[0.7,1], "C":[0.6,2]},
           "B":{"A":[0.7,2], "C":[0.8, 1]},
           "C": {"B":[0.8,1]}}
-network = add_HRR_MR(network, cutoff= 5)
+    
+    print("Before adding MR_HRR:")
+    print(network)
+
+    network = add_HRR_MR(network, cutoff= 5)
+    print("After adding MR_HRR:")
+    print(network)

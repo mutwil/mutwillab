@@ -7,7 +7,7 @@ if __name__ == "__main__":
          
 import os
 import argparse
-
+import multiprocessing as mp
 #mutwilab module imports
 from coexpression import pearson  
 from data_processing import read_write
@@ -21,6 +21,9 @@ if __name__ == "__main__":
 
     parser.add_argument("-o", "--output_dir", type=str, metavar="", required = True,
     help = "Directory to output network into." )
+
+    parser.add_argument("-w", "--workers", type=int, metavar="", default = 4,
+    help = "Number of concurrent calculations. Note: larger number of concurrent processes will consume more RAM." )
     
     parser.add_argument("-de", "--delimiter", type= str, metavar="", default = "t", choices=["t", "c"],
     help = "Delimiter for expression matrix. -de=\"t\" for tab seperated (.tsv). -de=\"c\" for comma seperated (.csv). TSV by default.")
@@ -30,8 +33,9 @@ if __name__ == "__main__":
     
     args=parser.parse_args()
     
-    workers, output_dir, delimiter ,rank_to_retain , expmat_path = args.workers, args.output_dir , args.delimiter, args.rank_to_retain, args.input_expmat_path
-
+    output_dir, delimiter ,rank_to_retain , expmat_path =  args.output_dir , args.delimiter, args.rank_to_retain, args.input_expmat_path
+    workers = args.workers
+    
     if delimiter == "t":
         delim = "\t"
     else:
@@ -48,14 +52,8 @@ if __name__ == "__main__":
             And saving it to {sub_outdir}\n")
     
     print("Running precalculations...")
-    genes, nominators, denominators = pearson.precalc()
+    genes, nominators, denominators = pearson.precalc(expmat_path, delimiter=delim)
 
-    for idx, GOI in enumerate(genes, start = 1):
-        cor_values, cor_ranks , cor_genes = pearson.calc_one_v_all(GOI , genes, nominators, denominators, rank_cutoff = rank_to_retain)
-        with open(os.path.join(sub_outdir, GOI)) as f:
-             f.write("Target\tPCC\tRank\n")
-             for cv, cr, cg in zip(cor_values,cor_ranks,  cor_genes):
-                f.write(f"{cg}\t{cv}\t{cg}\n")
-        if idx % 1000:
-             print("PCCs for",idx , "genes completed.")
+    print("Calculating PCCs for every gene...")
+    pearson.calc_all_v_all_mp(sub_outdir, genes, nominators, denominators, rank_cutoff = 1000, workers = workers)
     
