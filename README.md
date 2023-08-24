@@ -1,6 +1,8 @@
 # Welcome to Mutwil Lab!
 Here we maintain tools to study plant biological processes and their evolution through the lens of systems biology.
 
+Please see our [wiki](https://github.com/mutwil/mutwillab/wiki) for documentation on how to run commonly used pipelines.
+
 Please visit our [website](https://www.plant.tools/) for more details 
 ## Setup
 ### Clone repository into local machine
