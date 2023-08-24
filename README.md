@@ -5,26 +5,41 @@ Please visit our [website](https://www.plant.tools/) for more details
 ## Setup
 ### Clone repository into local machine
 ```
-$ git clone <placeholder>
+$ git clone https://github.com/mutwil/mutwillab.git
 ```
 ### Create environment, install required packages
 
 ```
 $ cd mutwillab
-$ virtualenv -p python3 .venv
+$ virtualenv -p python .venv
 $ source ./.venv/bin/activate
 $ pip install --upgrade pip
-$ pip install -r ./setup/requirements.txt
+$ pip install -r ./src/setup/requirements.txt
 ```
-That's it! You should have everything you need to import tools into your python scripts
+if the install failed then probably the python version used by virtualenv is not up to date. A quick fix is to install conda and use it to create an environment with python>3.10.
 
-## Importing tools
-Use this boiler plate at the start of your scripts.
+```
+$ conda create --name python_3_10 python=3.9
+$ conda activate python_3_10
+$ cd mutwillab
+$ virtualenv -p python .venv
+$ conda deactivate
+$ source ./.venv/bin/activate
+$ pip install --upgrade pip
+$ pip install -r ./src/setup/requirements.txt
+```
+
+That's it! You should have everything you need to import tools into your Python scripts
+
+
+## Importing modules
+If using IDEs (like VScode), use this boiler plate at the start of your scripts.
 
 ```
 #Boiler plate
 import sys
-sys.path.insert(0, "/path/to/mutwillab/src")
+sys.path.insert(0, "/path/to/mutwillab/src/")
+sys.path.insert(0, "/path/to/mutwillab/.venv/lib/python3.11/site-packages/")
 
 #Import modules from mutwillab
 from coexpression import pearson
@@ -33,13 +48,19 @@ from coexpression import pearson
 ```
 **For Mutwil Lab members:** If writing executable script for your pipline in `main/` folder, your can use this boiler plate.
 ```
-#!/usr/bin/env python
 #Boiler plate
 import sys
 if __name__ == "__main__":
          abspath= __file__
          parent_module= "/".join(abspath.split("/")[:-2])
          sys.path.insert(0, parent_module)
+#Import modules from mutwillab
+from coexpression import pearson
+```
+Activate virtual enviroment and run the script from CLI.
+```
+$ source ./venv/bin/activate
+$ python ./src/main/yourscript.py
 ```
 Happy coding!
 
