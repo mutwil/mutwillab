@@ -14,7 +14,7 @@ $ cd mutwillab
 $ virtualenv -p python .venv
 $ source ./.venv/bin/activate
 $ pip install --upgrade pip
-$ pip install -r ./setup/requirements.txt
+$ pip install -r ./src/setup/requirements.txt
 ```
 if the install failed then probably the python version used by virtualenv is not up to date. A quick fix is to install conda and use it to create an environment with python>3.10.
 
@@ -26,7 +26,7 @@ $ virtualenv -p python .venv
 $ conda deactivate
 $ source ./.venv/bin/activate
 $ pip install --upgrade pip
-$ pip install -r ./setup/requirements.txt
+$ pip install -r ./src/setup/requirements.txt
 ```
 
 That's it! You should have everything you need to import tools into your Python scripts
