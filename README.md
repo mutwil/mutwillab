@@ -11,15 +11,29 @@ $ git clone https://github.com/mutwil/mutwillab.git
 
 ```
 $ cd mutwillab
-$ virtualenv -p python3 .venv
+$ virtualenv -p python .venv
 $ source ./.venv/bin/activate
 $ pip install --upgrade pip
 $ pip install -r ./setup/requirements.txt
 ```
-That's it! You should have everything you need to import tools into your python scripts
+if the install failed then probably the python version used by virtualenv is not up to date. A quick fix is to install conda and use it to create an environment with python>3.10.
+
+```
+$ conda create --name python_3_10 python=3.9
+$ conda activate python_3_10
+$ cd mutwillab
+$ virtualenv -p python .venv
+$ conda deactivate
+$ source ./.venv/bin/activate
+$ pip install --upgrade pip
+$ pip install -r ./setup/requirements.txt
+```
+
+That's it! You should have everything you need to import tools into your Python scripts
+
 
 ## Importing modules
-If using IDEs (like vscode), use this boiler plate at the start of your scripts.
+If using IDEs (like VScode), use this boiler plate at the start of your scripts.
 
 ```
 #Boiler plate
