@@ -7,7 +7,6 @@ if __name__ == "__main__":
          
 import os
 import argparse
-import multiprocessing as mp
 #mutwilab module imports
 from coexpression import pearson  
 from data_processing import read_write
@@ -22,20 +21,20 @@ if __name__ == "__main__":
     parser.add_argument("-o", "--output_dir", type=str, metavar="", required = True,
     help = "Directory to output network into." )
 
-    parser.add_argument("-w", "--workers", type=int, metavar="", default = 4,
+    parser.add_argument("-w", "--workers", type=int, metavar="", default = 20,
     help = "Number of concurrent calculations. Note: larger number of concurrent processes will consume more RAM." )
     
     parser.add_argument("-de", "--delimiter", type= str, metavar="", default = "t", choices=["t", "c"],
     help = "Delimiter for expression matrix. -de=\"t\" for tab seperated (.tsv). -de=\"c\" for comma seperated (.csv). TSV by default.")
 
-    parser.add_argument("-rank", "--rank_to_retain", type= int, metavar="", default = 1000,
-    help = "If rank= 1000, only the first 1000 PCCs of a given gene will be written into the network. Directly limits the HRR cutoff in <Placeholder.py>")
-    
+    parser.add_argument("-rank", "--rank_to_retain", type= int, metavar="", default = 10000,
+    help = "If rank= 1000, only the first 1000 PCCs of a given gene will be written into the network. Directly limits the HRR cutoff in Get_HRR_MR.py")
+
     args=parser.parse_args()
     
     output_dir, delimiter ,rank_to_retain , expmat_path =  args.output_dir , args.delimiter, args.rank_to_retain, args.input_expmat_path
     workers = args.workers
-    
+
     if delimiter == "t":
         delim = "\t"
     else:
