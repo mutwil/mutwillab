@@ -21,7 +21,7 @@ $ pip install -r ./src/setup/requirements.txt
 if the install failed then probably the python version used by virtualenv is not up to date. A quick fix is to install conda and use it to create an environment with python>3.10.
 
 ```
-$ conda create --name python_3_10 python=3.9
+$ conda create --name python_3_10 python=3.10
 $ conda activate python_3_10
 $ cd mutwillab
 $ virtualenv -p python .venv
