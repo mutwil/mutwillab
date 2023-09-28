@@ -61,23 +61,29 @@ def write_HRR_MR(networkdir, PCC_network, headers = ["Target","PCC","Rank", "HRR
     #gonna speed this up somehow
     n=0
     for source , neighbourhood in PCC_network.items():
-        neighbourhood_unpacked = np.array(list((neighbourhood.values())))
-        source_PCCs = neighbourhood_unpacked[:,0]
-        source_ranks = neighbourhood_unpacked[:,-1]
-        target_ranks = []
-        targets = list((neighbourhood.keys()))
-        for target in targets:
-            try:
-                target_ranks.append(PCC_network[target][source])
-            except:
-                target_ranks.append([cutoff,cutoff])
-        source_target_ranks = np.array([source_ranks, np.array(target_ranks)[:,-1]])
-        HRRs = np.nanmax(source_target_ranks, axis = 0)
-        MRs = scipy.stats.mstats.gmean(source_target_ranks, axis = 0, nan_policy="omit")
-        with open(os.path.join(networkdir, source) , "w") as f:
-            f.write("\t".join(headers)+"\n")
-            for target,PCC ,rank, HRR, MR in zip(targets , source_PCCs , source_ranks , HRRs , MRs):
-                f.write(f"{target}\t{PCC}\t{rank}\t{HRR}\t{MR}\n")
+        if neighbourhood != {}: 
+            neighbourhood_unpacked = np.array(list((neighbourhood.values())))
+            source_PCCs = neighbourhood_unpacked[:,0]
+            source_ranks = neighbourhood_unpacked[:,-1]
+            target_ranks = []
+            targets = list((neighbourhood.keys()))
+            for target in targets:
+                try:
+                    target_ranks.append(PCC_network[target][source])
+                except:
+                    target_ranks.append([cutoff,cutoff])
+            source_target_ranks = np.array([source_ranks, np.array(target_ranks)[:,-1]])
+            HRRs = np.nanmax(source_target_ranks, axis = 0)
+            MRs = scipy.stats.mstats.gmean(source_target_ranks, axis = 0, nan_policy="omit")
+            with open(os.path.join(networkdir, source) , "w") as f:
+                f.write("\t".join(headers)+"\n")
+                for target,PCC ,rank, HRR, MR in zip(targets , source_PCCs , source_ranks , HRRs , MRs):
+                    f.write(f"{target}\t{PCC}\t{rank}\t{HRR}\t{MR}\n")
+
+        else:
+            with open(os.path.join(networkdir, source) , "w") as f:
+                f.write("\t".join(headers)+"\n")
+        
         n+=1
         if n % 100 ==0:
             print("Added MR and HRR for", n ,"genes")
